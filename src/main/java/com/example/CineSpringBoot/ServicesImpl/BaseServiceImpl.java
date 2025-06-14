@@ -4,6 +4,7 @@ import com.example.CineSpringBoot.entities.Base;
 import com.example.CineSpringBoot.entities.Cine;
 import com.example.CineSpringBoot.repositories.BaseRepository;
 import com.example.CineSpringBoot.services.BaseService;
+import jakarta.transaction.Transactional;
 
 import java.beans.Transient;
 import java.io.Serializable;
@@ -19,16 +20,17 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
+    @Transactional
     public List<E> findAll() throws Exception {
         try{
-            List<E> entities = baseRepository.findAll();
-            return entities;
+            return baseRepository.findAll();
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
 
     @Override
+    @Transactional
     public E findById(ID id) throws Exception {
         try {
             Optional<E> entity = baseRepository.findById(id);
@@ -39,6 +41,7 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
+    @Transactional
     public E save(E entity) throws Exception {
         try {
             return baseRepository.save(entity);
@@ -48,6 +51,7 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
+    @Transactional
     public E update(ID id, E entity) throws Exception {
         try {
             if (baseRepository.existsById(id)) {
@@ -62,6 +66,7 @@ public abstract class BaseServiceImpl <E extends Base, ID extends Serializable> 
     }
 
     @Override
+    @Transactional
     public boolean delete(ID id) throws Exception {
         try {
             if (baseRepository.existsById(id)) {
