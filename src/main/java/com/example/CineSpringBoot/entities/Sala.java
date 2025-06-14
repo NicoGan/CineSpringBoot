@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sala")
@@ -16,12 +16,13 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @Audited
-public class Sala extends Base{
+public class Sala extends Base {
     @Column(name = "numero")
     private int numero;
+
     @Column(name = "capacidad")
     private int capacidad;
-    @Column(name = "funcion")
-    @OneToMany(cascade = CascadeType.REFRESH)
-    private ArrayList<Funcion> funciones;
+
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.REFRESH)
+    private List<Funcion> funciones;
 }
