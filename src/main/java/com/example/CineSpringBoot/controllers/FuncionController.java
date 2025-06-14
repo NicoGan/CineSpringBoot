@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "api/funciones")
-public class FuncionController {
+public class FuncionController extends BaseControllerImpl<Funcion, Long> {
 }

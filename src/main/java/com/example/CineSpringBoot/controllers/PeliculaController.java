@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "api/peliculas")
-public class PeliculaController {
+public class PeliculaController extends BaseControllerImpl<Pelicula, Long> {
 }
