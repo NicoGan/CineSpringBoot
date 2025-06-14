@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas en Cartelera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Películas en Cartelera</h1>
+        <table id="tablaPeliculas" style="width:100%; background:#444; color:#fff; border-radius:8px;">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Género</th>
+                    <th>Duración</th>
+                    <th>Clasificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se llenan con JS -->
+            </tbody>
+        </table>
+        <button class="cine-btn" onclick="location.href='index.html'">Volver al inicio</button>
+    </div>
+    <script>
+        window.onload = async function() {
+            const res = await fetch('/api/peliculas');
+            const peliculas = await res.json();
+            const tbody = document.querySelector('#tablaPeliculas tbody');
+            peliculas.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${p.titulo || ''}</td>
+                    <td>${p.genero || ''}</td>
+                    <td>${p.duracion || ''} min</td>
+                    <td>${p.clasificacion || ''}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
