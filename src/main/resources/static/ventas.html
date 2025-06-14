@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas Realizadas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Ventas Realizadas</h1>
+    <table id="tablaVentas" style="width:100%; background:#444; color:#fff; border-radius:8px;">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Email</th>
+                <th>Película</th>
+                <th>Horario</th>
+                <th>Sala</th>
+                <th>Asientos</th>
+                <th>Forma de Pago</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas se llenan con JS -->
+        </tbody>
+    </table>
+    <button class="cine-btn" onclick="location.href='index.html'">Volver al inicio</button>
+</div>
+<script>
+    async function cargarVentas() {
+        const res = await fetch('/api/ventas');
+        const ventas = await res.json();
+        const tbody = document.querySelector('#tablaVentas tbody');
+        tbody.innerHTML = '';
+        ventas.forEach(v => {
+            const asientos = v.entradas ? v.entradas.map(e => e.asiento).join(', ') : '';
+            tbody.innerHTML += `
+                <tr>
+                    <td>${v.clienteNombre || (v.cliente ? v.cliente.nombre : '')}</td>
+                    <td>${v.clienteEmail || (v.cliente ? v.cliente.email : '')}</td>
+                    <td>${v.peliculaTitulo || (v.pelicula ? v.pelicula.titulo : '')}</td>
+                    <td>${v.horario || (v.funcion ? v.funcion.horario : '')}</td>
+                    <td>${v.salaNumero || (v.funcion && v.funcion.sala ? v.funcion.sala.numero : '')}</td>
+                    <td>${asientos}</td>
+                    <td>${v.formaPago || v.tipoPago || ''}</td>
+                    <td>${v.fecha || ''}</td>
+                </tr>
+            `;
+        });
+    }
+
+    cargarVentas();
+</script>
+</body>
+</html>
