@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprar Entrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Comprar Entrada</h1>
+    <form id="compraForm">
+        <label>Película:
+            <select id="peliculaSelect" required></select>
+        </label><br><br>
+        <label>Sala:
+            <select id="salaSelect" required></select>
+        </label><br><br>
+        <label>Horario:
+            <select id="funcionSelect" required></select>
+        </label><br><br>
+        <label>Asientos (separados por coma):
+            <input type="text" id="asientosInput" placeholder="Ej: A1,A2,B3" required>
+        </label><br><br>
+        <label>Forma de pago:
+            <select id="pagoSelect" required>
+                <option value="EFECTIVO">Efectivo</option>
+                <option value="TARJETA">Tarjeta</option>
+            </select>
+        </label><br><br>
+        <label>Nombre del cliente:
+            <input type="text" id="clienteNombre" required>
+        </label><br><br>
+        <label>Email del cliente:
+            <input type="email" id="clienteEmail" required>
+        </label><br><br>
+        <button class="cine-btn" type="submit">Comprar</button>
+    </form>
+    <div id="resultado"></div>
+    <button class="cine-btn" onclick="location.href='index.html'">Volver al inicio</button>
+</div>
+<script>
+    // Cargar películas
+    async function cargarPeliculas() {
+        const res = await fetch('/api/peliculas');
+        const peliculas = await res.json();
+        const select = document.getElementById('peliculaSelect');
+        select.innerHTML = '<option value="">Seleccione...</option>';
+        peliculas.forEach(p => {
+            select.innerHTML += `<option value="${p.id}">${p.titulo}</option>`;
+        });
+    }
+
+    // Cargar salas y funciones 
+    document.getElementById('peliculaSelect').onchange = async function() {
+        const peliculaId = this.value;
+        const salaSelect = document.getElementById('salaSelect');
+        const funcionSelect = document.getElementById('funcionSelect');
+        salaSelect.innerHTML = '<option value="">Seleccione...</option>';
+        funcionSelect.innerHTML = '<option value="">Seleccione...</option>';
+        if (peliculaId) {
+            // Cargar salas
+            const resSalas = await fetch('/api/salas?peliculaId=' + peliculaId);
+            const salas = await resSalas.json();
+            salas.forEach(s => {
+                salaSelect.innerHTML += `<option value="${s.id}">${s.nombre}</option>`;
+            });
+        }
+    };
+
+    // Cargar funciones 
+    document.getElementById('salaSelect').onchange = async function() {
+        const salaId = this.value;
+        const peliculaId = document.getElementById('peliculaSelect').value;
+        const funcionSelect = document.getElementById('funcionSelect');
+        funcionSelect.innerHTML = '<option value="">Seleccione...</option>';
+        if (salaId && peliculaId) {
+            const res = await fetch('/api/funciones?salaId=' + salaId + '&peliculaId=' + peliculaId);
+            const funciones = await res.json();
+            funciones.forEach(f => {
+                funcionSelect.innerHTML += `<option value="${f.id}">${f.horario}</option>`;
+            });
+        }
+    };
+
+    // Enviar compra
+    document.getElementById('compraForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const data = {
+            peliculaId: document.getElementById('peliculaSelect').value,
+            funcionId: document.getElementById('funcionSelect').value,
+            asientos: document.getElementById('asientosInput').value.split(',').map(a => a.trim()),
+            formaPago: document.getElementById('pagoSelect').value,
+            clienteNombre: document.getElementById('clienteNombre').value,
+            clienteEmail: document.getElementById('clienteEmail').value
+        };
+        const res = await fetch('/api/ventas/comprar', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        document.getElementById('resultado').innerText = await res.text();
+    };
+
+    cargarPeliculas();
+</script>
+</body>
+</html>
