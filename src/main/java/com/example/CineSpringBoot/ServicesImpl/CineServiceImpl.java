@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CineServiceImpl extends BaseServiceImpl<Cine, Integer> implements CineService {
-    @Autowired
+public class CineServiceImpl extends BaseServiceImpl<Cine, Long> implements CineService {
+    
     private CineRepository cineRepository;
 
-    public CineServiceImpl(BaseRepository<Cine, Integer> baseRepository, CineRepository cineRepository) {
+    public CineServiceImpl(BaseRepository<Cine, Long> baseRepository, CineRepository cineRepository) {
         super(baseRepository);
         this.cineRepository = cineRepository;
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.CineSpringBoot.controllers;
 
+import com.example.CineSpringBoot.entities.Venta;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
