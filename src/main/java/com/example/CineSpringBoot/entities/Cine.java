@@ -1,9 +1,6 @@
 package com.example.CineSpringBoot.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,16 +21,20 @@ public class Cine extends Base {
     private String nombre;
     @Column(name = "direccion")
     private String direccion;
+
     @Column(name = "empleados")
+    @ManyToMany(mappedBy = "cines")
     private ArrayList<Empleado> empleados;
     @Column(name = "peliculas")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cine_id")
     private ArrayList<Pelicula> peliculas;
     @Column(name = "venta")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cine_id")
     private ArrayList<Venta> ventas;
     @Column(name = "sala")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cine_id")
     private ArrayList<Sala> salas;
-
 }
