@@ -1,4 +1,6 @@
 package com.example.CineSpringBoot.services;
 
-public interface EmpleadoService {
+import com.example.CineSpringBoot.entities.Empleado;
+
+public interface EmpleadoService extends BaseService<Empleado, Long> {
 }
