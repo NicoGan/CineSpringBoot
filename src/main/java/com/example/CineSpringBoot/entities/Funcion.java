@@ -21,6 +21,7 @@ public class Funcion extends Base{
     private String horario;
     @Column(name = "pelicula")
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "pelicula_id")
     private Pelicula pelicula;
     @OneToMany
     private ArrayList<Entrada> entradas;
