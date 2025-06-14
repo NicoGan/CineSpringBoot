@@ -1,4 +1,8 @@
 package com.example.CineSpringBoot.repositories;
 
-public interface FuncionRepository {
+import com.example.CineSpringBoot.entities.Funcion;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FuncionRepository extends BaseRepository<Funcion, Long> {
 }

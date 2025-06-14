@@ -1,4 +1,8 @@
 package com.example.CineSpringBoot.repositories;
 
-public interface SalaRepository {
+import com.example.CineSpringBoot.entities.Sala;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SalaRepository extends BaseRepository<Sala, Integer> {
 }

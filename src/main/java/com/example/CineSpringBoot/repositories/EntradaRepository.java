@@ -1,4 +1,8 @@
 package com.example.CineSpringBoot.repositories;
 
-public interface EntradaRepository {
+import com.example.CineSpringBoot.entities.Entrada;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EntradaRepository extends BaseRepository<Entrada, Integer> {
 }
