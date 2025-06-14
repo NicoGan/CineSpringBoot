@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class Funcion extends Base{
     @Column(name = "horario")
     private String horario;
-    @Column(name = "pelicula")
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pelicula_id")
     private Pelicula pelicula;
