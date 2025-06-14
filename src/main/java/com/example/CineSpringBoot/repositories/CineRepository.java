@@ -4,5 +4,5 @@ import com.example.CineSpringBoot.entities.Cine;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CineRepository extends BaseRepository<Cine, Integer> {
+public interface CineRepository extends BaseRepository<Cine, Long> {
 }
