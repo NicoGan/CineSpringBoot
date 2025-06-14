@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Empleados del Cine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Empleados del Cine</h1>
+    <table id="tablaEmpleados" style="width:100%; background:#444; color:#fff; border-radius:8px;">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Cine</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas se llenan con JS -->
+        </tbody>
+    </table>
+    <button class="cine-btn" onclick="location.href='registrar-empleado.html'">Registrar Nuevo Empleado</button>
+    <button class="cine-btn" onclick="location.href='index.html'">Volver al inicio</button>
+</div>
+<script>
+    async function cargarEmpleados() {
+        const res = await fetch('/api/empleados');
+        const empleados = await res.json();
+        const tbody = document.querySelector('#tablaEmpleados tbody');
+        tbody.innerHTML = '';
+        empleados.forEach(e => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${e.nombre || ''}</td>
+                <td>${e.dni || ''}</td>
+                <td>${e.cine ? e.cine.nombre : ''}</td>
+                <td>
+                    <button onclick="borrarEmpleado(${e.id})">Borrar</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function borrarEmpleado(id) {
+        if (confirm('¿Seguro que deseas borrar este empleado?')) {
+            await fetch('/api/empleados/' + id, { method: 'DELETE' });
+            cargarEmpleados();
+        }
+    }
+
+    cargarEmpleados();
+</script>
+</body>
+</html>

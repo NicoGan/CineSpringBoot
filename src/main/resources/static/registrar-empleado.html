@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Empleado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Registrar Empleado</h1>
+    <form id="empleadoForm">
+        <label>Nombre:
+            <input type="text" id="nombre" required>
+        </label><br><br>
+        <label>DNI:
+            <input type="text" id="dni" required>
+        </label><br><br>
+        <label>Cine:
+            <select id="cineSelect" required></select>
+        </label><br><br>
+        <button class="cine-btn" type="submit">Registrar</button>
+    </form>
+    <div id="resultado"></div>
+    <button class="cine-btn" onclick="location.href='empleados.html'">Ver Empleados</button>
+    <button class="cine-btn" onclick="location.href='index.html'">Volver al inicio</button>
+</div>
+<script>
+    async function cargarCines() {
+        const res = await fetch('/api/cine');
+        const cines = await res.json();
+        const select = document.getElementById('cineSelect');
+        select.innerHTML = '<option value="">Seleccione...</option>';
+        cines.forEach(c => {
+            select.innerHTML += `<option value="${c.id}">${c.nombre}</option>`;
+        });
+    }
+
+    document.getElementById('empleadoForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const data = {
+            nombre: document.getElementById('nombre').value,
+            dni: document.getElementById('dni').value,
+            cine: { id: document.getElementById('cineSelect').value }
+        };
+        const res = await fetch('/api/empleados', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        document.getElementById('resultado').innerText = await res.text();
+    };
+
+    cargarCines();
+</script>
+</body>
+</html>
