@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cine")
@@ -19,22 +19,22 @@ import java.util.ArrayList;
 public class Cine extends Base {
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "empleados")
-    @ManyToMany(mappedBy = "cines")
-    private ArrayList<Empleado> empleados;
-    @Column(name = "peliculas")
+    @OneToMany(mappedBy = "cine", cascade = CascadeType.ALL)
+    private List<Empleado> empleados;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cine_id")
-    private ArrayList<Pelicula> peliculas;
-    @Column(name = "venta")
+    private List<Pelicula> peliculas;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cine_id")
-    private ArrayList<Venta> ventas;
-    @Column(name = "sala")
+    private List<Venta> ventas;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cine_id")
-    private ArrayList<Sala> salas;
+    private List<Sala> salas;
 }
