@@ -1,7 +1,7 @@
 package com.example.CineSpringBoot.controllers;
 
 import com.example.CineSpringBoot.entities.Base;
-import com.example.CineSpringBoot.services.BaseServiceImpl;
+import com.example.CineSpringBoot.ServicesImpl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
