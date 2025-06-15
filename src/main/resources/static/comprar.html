@@ -70,11 +70,10 @@
         salaSelect.innerHTML = '<option value="">Seleccione...</option>';
         funcionSelect.innerHTML = '<option value="">Seleccione...</option>';
         if (peliculaId) {
-            // Cargar salas
             const resSalas = await fetch('/api/salas?peliculaId=' + peliculaId);
             const salas = await resSalas.json();
             salas.forEach(s => {
-                salaSelect.innerHTML += `<option value="${s.id}">${s.nombre}</option>`;
+                salaSelect.innerHTML += `<option value="${s.id}">Sala ${s.numero}</option>`;
             });
         }
     };

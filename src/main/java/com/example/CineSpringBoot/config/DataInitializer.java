@@ -31,17 +31,13 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (cineRepository.count() == 0) {
-            // Crear Cine
-            Cine cine = new Cine();
-            cine.setNombre("Cinepolis");
-            cine.setDireccion("Mendoza Plaza Shopping");
-
-            // Crear Películas
+            // 1. Crear películas
             Pelicula peli1 = new Pelicula("Matrix", Genero.ACCION);
             Pelicula peli2 = new Pelicula("Toy Story", Genero.ANIMAC);
             Pelicula peli3 = new Pelicula("El Padrino", Genero.DRAMA);
+            peliculaRepository.saveAll(Arrays.asList(peli1, peli2, peli3));
 
-            // Crear Salas
+            // 2. Crear salas
             Sala sala1 = new Sala();
             sala1.setNumero(1);
             sala1.setCapacidad(100);
@@ -50,12 +46,17 @@ public class DataInitializer implements CommandLineRunner {
             sala2.setNumero(2);
             sala2.setCapacidad(80);
 
-            
+            salaRepository.saveAll(Arrays.asList(sala1, sala2));
+
+            // 3. Crear cine 
+            Cine cine = new Cine();
+            cine.setNombre("Cinepolis");
+            cine.setDireccion("Mendoza Plaza Shopping");
             cine.setPeliculas(Arrays.asList(peli1, peli2, peli3));
             cine.setSalas(Arrays.asList(sala1, sala2));
-
             cineRepository.save(cine);
 
+            // 4. Crear funciones
             Funcion funcion1 = new Funcion();
             funcion1.setHorario("18:00");
             funcion1.setPelicula(peli1);
