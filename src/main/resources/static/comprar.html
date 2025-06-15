@@ -51,6 +51,17 @@
         });
     }
 
+    // Cargar salas
+    async function cargarSalas() {
+        const res = await fetch('/api/salas');
+        const salas = await res.json();
+        const select = document.getElementById('salaSelect');
+        select.innerHTML = '<option value="">Seleccione...</option>';
+        salas.forEach(s => {
+            select.innerHTML += `<option value="${s.id}">Sala ${s.numero}</option>`;
+        });
+    }
+
     // Cargar salas y funciones 
     document.getElementById('peliculaSelect').onchange = async function() {
         const peliculaId = this.value;
@@ -102,7 +113,11 @@
         document.getElementById('resultado').innerText = await res.text();
     };
 
-    cargarPeliculas();
+    // Llama a cargarSalas cuando se cargue la página
+    window.onload = function() {
+        cargarSalas();
+        cargarPeliculas();
+    };
 </script>
 </body>
 </html>
