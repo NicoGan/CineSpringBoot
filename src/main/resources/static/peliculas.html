@@ -14,8 +14,6 @@
                 <tr>
                     <th>Título</th>
                     <th>Género</th>
-                    <th>Duración</th>
-                    <th>Clasificación</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,8 +32,6 @@
                 tr.innerHTML = `
                     <td>${p.titulo || ''}</td>
                     <td>${p.genero || ''}</td>
-                    <td>${p.duracion || ''} min</td>
-                    <td>${p.clasificacion || ''}</td>
                 `;
                 tbody.appendChild(tr);
             });
