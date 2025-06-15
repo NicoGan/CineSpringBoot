@@ -26,7 +26,7 @@ public class Cine extends Base {
     @OneToMany(mappedBy = "cine", cascade = CascadeType.ALL)
     private List<Empleado> empleados;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "cine_id")
     private List<Pelicula> peliculas;
 
@@ -34,7 +34,7 @@ public class Cine extends Base {
     @JoinColumn(name = "cine_id")
     private List<Venta> ventas;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "cine_id")
     private List<Sala> salas;
 }

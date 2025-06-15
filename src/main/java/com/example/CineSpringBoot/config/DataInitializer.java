@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -31,13 +30,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (cineRepository.count() == 0) {
-            // 1. Crear películas
-            Pelicula peli1 = new Pelicula("Matrix", Genero.ACCION);
-            Pelicula peli2 = new Pelicula("Toy Story", Genero.ANIMAC);
-            Pelicula peli3 = new Pelicula("El Padrino", Genero.DRAMA);
-            peliculaRepository.saveAll(Arrays.asList(peli1, peli2, peli3));
-
-            // 2. Crear salas
+            // Crear y guardar salas
             Sala sala1 = new Sala();
             sala1.setNumero(1);
             sala1.setCapacidad(100);
@@ -48,29 +41,40 @@ public class DataInitializer implements CommandLineRunner {
 
             salaRepository.saveAll(Arrays.asList(sala1, sala2));
 
-            // 3. Crear cine 
+            // Crear y guardar películas
+            Pelicula peli1 = new Pelicula("Matrix", Genero.ACCION);
+            Pelicula peli2 = new Pelicula("Toy Story", Genero.ANIMAC);
+            Pelicula peli3 = new Pelicula("El Padrino", Genero.DRAMA);
+
+            peliculaRepository.saveAll(Arrays.asList(peli1, peli2, peli3));
+
+            // Recuperar entidades gestionadas por JPA
+            var salas = salaRepository.findAll();
+            var peliculas = peliculaRepository.findAll();
+
+            // Crear cine y asociar salas y películas gestionadas
             Cine cine = new Cine();
-            cine.setNombre("Cinepolis");
+            cine.setNombre("Cine Central");
             cine.setDireccion("Mendoza Plaza Shopping");
-            cine.setPeliculas(Arrays.asList(peli1, peli2, peli3));
-            cine.setSalas(Arrays.asList(sala1, sala2));
+            cine.setSalas(salas);
+            cine.setPeliculas(peliculas);
             cineRepository.save(cine);
 
-            // 4. Crear funciones
+            // Crear y guardar funciones
             Funcion funcion1 = new Funcion();
             funcion1.setHorario("18:00");
-            funcion1.setPelicula(peli1);
-            funcion1.setSala(sala1);
+            funcion1.setPelicula(peliculas.get(0));
+            funcion1.setSala(salas.get(0));
 
             Funcion funcion2 = new Funcion();
             funcion2.setHorario("20:00");
-            funcion2.setPelicula(peli2);
-            funcion2.setSala(sala2);
+            funcion2.setPelicula(peliculas.get(1));
+            funcion2.setSala(salas.get(1));
 
             Funcion funcion3 = new Funcion();
             funcion3.setHorario("22:00");
-            funcion3.setPelicula(peli3);
-            funcion3.setSala(sala1);
+            funcion3.setPelicula(peliculas.get(2));
+            funcion3.setSala(salas.get(0));
 
             funcionRepository.saveAll(Arrays.asList(funcion1, funcion2, funcion3));
         }
