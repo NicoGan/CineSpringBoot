@@ -36,6 +36,11 @@ public class DataInitializer implements CommandLineRunner {
             cine.setNombre("Cinepolis");
             cine.setDireccion("Mendoza Plaza Shopping");
 
+            // Crear Películas
+            Pelicula peli1 = new Pelicula("Matrix", Genero.ACCION);
+            Pelicula peli2 = new Pelicula("Toy Story", Genero.ANIMAC);
+            Pelicula peli3 = new Pelicula("El Padrino", Genero.DRAMA);
+
             // Crear Salas
             Sala sala1 = new Sala();
             sala1.setNumero(1);
@@ -45,16 +50,12 @@ public class DataInitializer implements CommandLineRunner {
             sala2.setNumero(2);
             sala2.setCapacidad(80);
 
-            salaRepository.saveAll(Arrays.asList(sala1, sala2));
+            
+            cine.setPeliculas(Arrays.asList(peli1, peli2, peli3));
+            cine.setSalas(Arrays.asList(sala1, sala2));
 
-            // Crear Películas
-            Pelicula peli1 = new Pelicula("Matrix", Genero.ACCION);
-            Pelicula peli2 = new Pelicula("Toy Story", Genero.ANIMAC);
-            Pelicula peli3 = new Pelicula("El Padrino", Genero.DRAMA);
+            cineRepository.save(cine);
 
-            peliculaRepository.saveAll(Arrays.asList(peli1, peli2, peli3));
-
-            // Crear Funciones
             Funcion funcion1 = new Funcion();
             funcion1.setHorario("18:00");
             funcion1.setPelicula(peli1);
@@ -71,16 +72,6 @@ public class DataInitializer implements CommandLineRunner {
             funcion3.setSala(sala1);
 
             funcionRepository.saveAll(Arrays.asList(funcion1, funcion2, funcion3));
-
-            
-            sala1.setFunciones(Collections.singletonList(funcion1));
-            sala2.setFunciones(Collections.singletonList(funcion2));
-            salaRepository.saveAll(Arrays.asList(sala1, sala2));
-
-            
-            cine.setSalas(Arrays.asList(sala1, sala2));
-            cine.setPeliculas(Arrays.asList(peli1, peli2, peli3));
-            cineRepository.save(cine);
         }
     }
 }
