@@ -16,4 +16,8 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Long> implement
         super(baseRepository);
         this.clienteRepository = clienteRepository;
     }
+
+    public Cliente findByEmail(String email) {
+        return clienteRepository.findByEmail(email);
+    }
 }

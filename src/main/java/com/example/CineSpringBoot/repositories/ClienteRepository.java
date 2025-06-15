@@ -11,6 +11,6 @@ public interface ClienteRepository extends BaseRepository<Cliente, Long>{
     List<Cliente> findByNombreContaining(String nombre);
     Page<Cliente> findByNombreContaining(String nombre, Pageable pageable);
     boolean existsByNombre(String nombre);
-
+    Cliente findByEmail(String email);
 
 }

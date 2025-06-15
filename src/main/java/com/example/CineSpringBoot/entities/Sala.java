@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 @Entity
@@ -23,6 +25,7 @@ public class Sala extends Base {
     @Column(name = "capacidad")
     private int capacidad;
 
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "sala")
+    @JsonIgnore
     private List<Funcion> funciones;
 }

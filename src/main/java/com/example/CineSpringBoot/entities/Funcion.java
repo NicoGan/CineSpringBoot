@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "funcion")
@@ -19,13 +22,14 @@ import java.util.ArrayList;
 public class Funcion extends Base{
     @Column(name = "horario")
     private String horario;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "pelicula_id")
     private Pelicula pelicula;
     @OneToMany
-    private ArrayList<Entrada> entradas;
+    private List<Entrada> entradas = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "sala_id")
+    @JsonIgnore
     private Sala sala;
 
 }

@@ -51,18 +51,7 @@
         });
     }
 
-    // Cargar salas
-    async function cargarSalas() {
-        const res = await fetch('/api/salas');
-        const salas = await res.json();
-        const select = document.getElementById('salaSelect');
-        select.innerHTML = '<option value="">Seleccione...</option>';
-        salas.forEach(s => {
-            select.innerHTML += `<option value="${s.id}">Sala ${s.numero}</option>`;
-        });
-    }
-
-    // Cargar salas y funciones 
+    // Cargar salas y funciones al seleccionar película
     document.getElementById('peliculaSelect').onchange = async function() {
         const peliculaId = this.value;
         const salaSelect = document.getElementById('salaSelect');
@@ -78,7 +67,7 @@
         }
     };
 
-    // Cargar funciones 
+    // Cargar funciones al seleccionar sala
     document.getElementById('salaSelect').onchange = async function() {
         const salaId = this.value;
         const peliculaId = document.getElementById('peliculaSelect').value;
@@ -97,14 +86,13 @@
     document.getElementById('compraForm').onsubmit = async function(e) {
         e.preventDefault();
         const data = {
-            peliculaId: document.getElementById('peliculaSelect').value,
             funcionId: document.getElementById('funcionSelect').value,
-            asientos: document.getElementById('asientosInput').value.split(',').map(a => a.trim()),
-            formaPago: document.getElementById('pagoSelect').value,
-            clienteNombre: document.getElementById('clienteNombre').value,
-            clienteEmail: document.getElementById('clienteEmail').value
+            tipo: document.getElementById('pagoSelect').value,
+            nombre: document.getElementById('clienteNombre').value,
+            correo: document.getElementById('clienteEmail').value,
+            // Puedes agregar monto, fecha, asientos si tu backend lo requiere
         };
-        const res = await fetch('/api/ventas/comprar', {
+        const res = await fetch('/api/ventas/crear', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -112,7 +100,6 @@
         document.getElementById('resultado').innerText = await res.text();
     };
 
-    // Llama a cargarSalas cuando se cargue la página
     window.onload = function() {
         cargarPeliculas();
     };

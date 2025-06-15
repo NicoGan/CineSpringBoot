@@ -52,14 +52,6 @@ public class DataInitializer implements CommandLineRunner {
             var salas = salaRepository.findAll();
             var peliculas = peliculaRepository.findAll();
 
-            // Crear cine y asociar salas y películas gestionadas
-            Cine cine = new Cine();
-            cine.setNombre("Cine Central");
-            cine.setDireccion("Mendoza Plaza Shopping");
-            cine.setSalas(salas);
-            cine.setPeliculas(peliculas);
-            cineRepository.save(cine);
-
             // Crear y guardar funciones
             Funcion funcion1 = new Funcion();
             funcion1.setHorario("18:00");
@@ -77,6 +69,14 @@ public class DataInitializer implements CommandLineRunner {
             funcion3.setSala(salas.get(0));
 
             funcionRepository.saveAll(Arrays.asList(funcion1, funcion2, funcion3));
+
+            // Crear cine y asociar salas y películas gestionadas
+            Cine cine = new Cine();
+            cine.setNombre("Cine Central");
+            cine.setDireccion("Mendoza Plaza Shopping");
+            cine.setSalas(salas);
+            cine.setPeliculas(peliculas);
+            cineRepository.save(cine);
         }
     }
 }

@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "venta")
@@ -23,10 +24,21 @@ public class Venta extends Base {
     private Date fecha;
     @Column(name = "funcion")
     @ManyToMany
-    private ArrayList<Funcion> funcion;
-    @Column(name = "clientes")
-    @ManyToMany
-    private ArrayList<Cliente> cliente;
-    @Column(name = "pago")
+    private List<Funcion> funcion = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id") 
+    private Cliente cliente;
+    @OneToOne
+    @JoinColumn(name = "pago_id")
     private Pago pago;
+
+    public void addFuncion(Funcion funcion) {
+        if (this.funcion == null) this.funcion = new ArrayList<>();
+        this.funcion.add(funcion);
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }
