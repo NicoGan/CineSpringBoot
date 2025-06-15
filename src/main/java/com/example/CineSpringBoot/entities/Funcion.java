@@ -24,5 +24,8 @@ public class Funcion extends Base{
     private Pelicula pelicula;
     @OneToMany
     private ArrayList<Entrada> entradas;
+    @ManyToOne
+    @JoinColumn(name = "sala_id")
+    private Sala sala;
 
 }
